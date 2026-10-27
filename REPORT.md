@@ -1,4 +1,4 @@
-# AI-Driven Software Engineering Practice #09 — Kamaliyev Abylaikhan, 24B031831
+# AI-Driven Software Engineering Practice #08 — Kamaliyev Abylaikhan, 24B031831
 
 - **Class:** Tuesday, 16:00–19:00
 - **AI tool:** Claude (claude.ai), model Claude Opus 5.5 (`claude-opus-5-5`)
