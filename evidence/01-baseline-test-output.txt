@@ -1,0 +1,102 @@
+
+ RUN  v2.1.9 /home/claude/smart-campus
+
+ ❯ tests/availability.test.js (11 tests | 4 failed) 30ms
+   × AC2 — max duration 120 min > TC04 allows exactly 120 minutes 15ms
+     → expected 'Unavailable' to be 'Available' // Object.is equality
+   × AC4 — overlaps > TC08 allows a booking that starts exactly when another ends 1ms
+     → expected 'Unavailable' to be 'Available' // Object.is equality
+   × AC4 — overlaps > TC09 allows a booking that ends exactly when another starts 1ms
+     → expected 'Unavailable' to be 'Available' // Object.is equality
+   × AC5 — no mutation of booking data > TC11 keeps bookings array order and content unchanged 5ms
+     → expected [ { id: 'B1', …(2) }, …(1) ] to deeply equal [ { id: 'B2', …(2) }, …(1) ]
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/availability.test.js > AC2 — max duration 120 min > TC04 allows exactly 120 minutes
+AssertionError: expected 'Unavailable' to be 'Available' // Object.is equality
+
+Expected: "Available"
+Received: "Unavailable"
+
+ ❯ tests/availability.test.js:32:99
+     30| describe('AC2 — max duration 120 min', () => {
+     31|   it('TC04 allows exactly 120 minutes', () => {
+     32|     expect(checkAvailability(room, bookings, { start: t('11:00'), end:…
+       |                                                                                                   ^
+     33|   });
+     34|   it('TC05 rejects 121 minutes', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/availability.test.js > AC4 — overlaps > TC08 allows a booking that starts exactly when another ends
+AssertionError: expected 'Unavailable' to be 'Available' // Object.is equality
+
+Expected: "Available"
+Received: "Unavailable"
+
+ ❯ tests/availability.test.js:51:99
+     49|   });
+     50|   it('TC08 allows a booking that starts exactly when another ends', ()…
+     51|     expect(checkAvailability(room, bookings, { start: t('11:00'), end:…
+       |                                                                                                   ^
+     52|   });
+     53|   it('TC09 allows a booking that ends exactly when another starts', ()…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/availability.test.js > AC4 — overlaps > TC09 allows a booking that ends exactly when another starts
+AssertionError: expected 'Unavailable' to be 'Available' // Object.is equality
+
+Expected: "Available"
+Received: "Unavailable"
+
+ ❯ tests/availability.test.js:54:99
+     52|   });
+     53|   it('TC09 allows a booking that ends exactly when another starts', ()…
+     54|     expect(checkAvailability(room, bookings, { start: t('13:00'), end:…
+       |                                                                                                   ^
+     55|   });
+     56|   it('TC10 allows a free slot', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/availability.test.js > AC5 — no mutation of booking data > TC11 keeps bookings array order and content unchanged
+AssertionError: expected [ { id: 'B1', …(2) }, …(1) ] to deeply equal [ { id: 'B2', …(2) }, …(1) ]
+
+- Expected
++ Received
+
+  Array [
+    Object {
+-     "end": 2026-10-27T10:00:00.000Z,
+-     "id": "B2",
+-     "start": 2026-10-27T09:00:00.000Z,
+-   },
+-   Object {
+      "end": 2026-10-27T06:00:00.000Z,
+      "id": "B1",
+      "start": 2026-10-27T05:00:00.000Z,
++   },
++   Object {
++     "end": 2026-10-27T10:00:00.000Z,
++     "id": "B2",
++     "start": 2026-10-27T09:00:00.000Z,
+    },
+  ]
+
+ ❯ tests/availability.test.js:65:22
+     63|     const snapshot = structuredClone(bookings);
+     64|     checkAvailability(room, bookings, { start: t('16:00'), end: t('17:…
+     65|     expect(bookings).toEqual(snapshot);
+       |                      ^
+     66|   });
+     67| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 7 passed (11)
+   Start at  18:26:04
+   Duration  334ms (transform 73ms, setup 0ms, collect 46ms, tests 30ms, environment 0ms, prepare 76ms)
+

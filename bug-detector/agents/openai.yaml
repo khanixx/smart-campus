@@ -1,0 +1,3 @@
+interface:
+  display_name: "Bug Detector"
+  short_description: "Diagnose Smart Campus booking bugs from acceptance criteria and failing tests"

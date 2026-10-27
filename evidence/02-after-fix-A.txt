@@ -1,0 +1,48 @@
+
+ RUN  v2.1.9 /home/claude/smart-campus
+
+ ❯ tests/availability.test.js (11 tests | 1 failed) 15ms
+   × AC5 — no mutation of booking data > TC11 keeps bookings array order and content unchanged 10ms
+     → expected [ { id: 'B1', …(2) }, …(1) ] to deeply equal [ { id: 'B2', …(2) }, …(1) ]
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/availability.test.js > AC5 — no mutation of booking data > TC11 keeps bookings array order and content unchanged
+AssertionError: expected [ { id: 'B1', …(2) }, …(1) ] to deeply equal [ { id: 'B2', …(2) }, …(1) ]
+
+- Expected
++ Received
+
+  Array [
+    Object {
+-     "end": 2026-10-27T10:00:00.000Z,
+-     "id": "B2",
+-     "start": 2026-10-27T09:00:00.000Z,
+-   },
+-   Object {
+      "end": 2026-10-27T06:00:00.000Z,
+      "id": "B1",
+      "start": 2026-10-27T05:00:00.000Z,
++   },
++   Object {
++     "end": 2026-10-27T10:00:00.000Z,
++     "id": "B2",
++     "start": 2026-10-27T09:00:00.000Z,
+    },
+  ]
+
+ ❯ tests/availability.test.js:65:22
+     63|     const snapshot = structuredClone(bookings);
+     64|     checkAvailability(room, bookings, { start: t('16:00'), end: t('17:…
+     65|     expect(bookings).toEqual(snapshot);
+       |                      ^
+     66|   });
+     67| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  18:26:23
+   Duration  280ms (transform 32ms, setup 0ms, collect 28ms, tests 15ms, environment 0ms, prepare 68ms)
+
