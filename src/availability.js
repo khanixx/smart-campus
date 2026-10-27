@@ -37,5 +37,5 @@ export function checkAvailability(room, bookings, request, now) {
 }
 
 export function overlaps(a, b) {
-  return a.start <= b.end && b.start <= a.end; // BUG-A: touching endpoints counted as conflict
+  return a.start < b.end && b.start < a.end; // FIX-A: strict comparison, touching endpoints allowed
 }
