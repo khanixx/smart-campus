@@ -27,8 +27,8 @@ export function checkAvailability(room, bookings, request, now) {
   if (room.blocked) return { status: 'Unavailable', reason: 'Room is blocked' };
 
   // AC4: overlaps
-  bookings.sort((a, b) => a.start - b.start); // BUG-B: sorts caller's array in place
-  for (const b of bookings) {
+  const sorted = [...bookings].sort((a, b) => a.start - b.start); // FIX-B: sort a copy, input untouched
+  for (const b of sorted) {
     if (overlaps(b, request)) return { status: 'Unavailable', reason: 'Overlaps an existing booking' };
   }
 
