@@ -3,7 +3,7 @@
 - **Class:** Tuesday, 16:00–19:00
 - **AI tool:** Claude (claude.ai), model Claude Opus 5.5 (`claude-opus-5-5`)
 - **Stack:** JavaScript (ES modules), Vitest 2, Git
-- **Project link (live demo):** https://claude.ai/artifact/RbcWdMeWro3TYNu7xMWqhM (share it from the page's Share menu so the instructor can open it)
+- **Project link (live demo):** https://claude.ai/artifact/RbcWdMeWro3TYNu7xMWqhM (screenshot in `evidence/screenshots/07-live-demo.png`; full illustrated report in `REPORT.pdf`)
 
 ## 1. Baseline (Task #01)
 
@@ -37,7 +37,7 @@ Optional second skill: `regression-tester.zip` (same structure, no `agents/`).
 Same input in both chats: `src/availability.js`, the AC list, and the TC08 failure from `evidence/01-baseline-test-output.txt`.
 
 - **Baseline prompt (fresh chat, skill off):** "Find the root cause of the failed room-booking test. Propose minimal patch and regression test. Do not edit code."
-- **Skill prompt (fresh chat, skill on):** "Use the bug-detector skill to diagnose the failed room-booking test."
+- **Skill prompt (fresh chat, skill on):** the same baseline prompt plus one extra line: "Use the bug-detector skill to diagnose the failed room-booking test." (see REPORT.pdf, Figure 7). The only difference between the two chats is the skill.
 
 | Criterion | No skill | With skill |
 |---|---|---|
@@ -47,7 +47,7 @@ Same input in both chats: `src/availability.js`, the AC list, and the TC08 failu
 | Unsupported claims | One assumption (fixture times), stated openly | None: TC04 cause explicitly marked as *hypothesis* because the test file was not attached |
 | Clarity of explanation | Clear, but free-form layout | Clear, fixed structure: defect, evidence, root cause, fix, test, expected result; also flagged the AC1 edge case `start == now` |
 
-Screenshots: `evidence/screenshots/04-no-skill-*.png` (no skill), `06-with-skill.png` (with skill), `03-skill-installed.png` (activation).
+Screenshots: `evidence/screenshots/04-no-skill-1..4.png` (no skill), `05-with-skill-1..3.png` (with skill), `03-skill-installed.png` (activation), `07-live-demo.png` (demo).
 
 ## 4. Repair and regression (Task #06)
 
