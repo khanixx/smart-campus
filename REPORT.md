@@ -41,11 +41,13 @@ Same input in both chats: `src/availability.js`, the AC list, and the TC08 failu
 
 | Criterion | No skill | With skill |
 |---|---|---|
-| Correct root cause | | |
-| Reproducible test | | |
-| Minimal proposed patch | | |
-| Unsupported claims | | |
-| Clarity of explanation | | |
+| Correct root cause | Yes: both bugs (`<=` in `overlaps()`, in-place `sort`); explained TC04 as BUG-A | Yes: same two bugs; reproduced all 4 failures on a scratch copy first |
+| Reproducible test | Yes: 6 tests (R1–R6), local-time helper, frozen array for BUG-B | Yes: 3 tests (REG-A, REG-A2, REG-B) with explicit UTC dates, independent of machine time zone |
+| Minimal proposed patch | Mostly: fixed `<=`, but also rewrote the loop to `.some()` (more than needed) | Yes: one line per bug; offered `[...bookings].sort()` as an alternative to deleting the sort |
+| Unsupported claims | One assumption (fixture times), stated openly | None: TC04 cause explicitly marked as *hypothesis* because the test file was not attached |
+| Clarity of explanation | Clear, but free-form layout | Clear, fixed structure: defect, evidence, root cause, fix, test, expected result; also flagged the AC1 edge case `start == now` |
+
+Screenshots: `evidence/screenshots/04-no-skill-*.png` (no skill), `06-with-skill.png` (with skill), `03-skill-installed.png` (activation).
 
 ## 4. Repair and regression (Task #06)
 
@@ -60,4 +62,4 @@ Diff: `evidence/code.diff` (2 lines changed). Command: `npx vitest run`.
 
 ## 5. Conclusion
 
-_Edit after filling the table in section 3._ The skill made the AI answer follow a fixed structure (defect | evidence | root cause | fix | test) and keep confirmed defects apart from guesses, but it did not find anything the plain prompt missed — both depend on the same code and failing test. The tests prove that touching bookings (11:00 after a 10:00–11:00 booking) are now allowed while real overlaps are still rejected, and that `checkAvailability` no longer reorders the caller's bookings array. They do not prove correctness for multiple rooms, time zones other than the fixed one, or UI behaviour on mobile (AC6 was checked by hand only). One limitation of AI-assisted debugging: the AI only sees what I paste, so it can claim a fix works without running anything — only real terminal output counts as evidence.
+Both answers found the same two root causes, so the skill did not make the AI smarter. What it changed was discipline: the answer followed the defect | evidence | root cause | fix | test structure, kept the patch to one line per bug, and marked the TC04 explanation as a hypothesis instead of stating it as fact. The tests prove that touching bookings (11:00 after a 10:00–11:00 booking) are now allowed while real overlaps are still rejected, and that `checkAvailability` no longer reorders the caller's bookings array. They do not prove correctness for multiple rooms, time zones other than the fixed one, or UI behaviour on mobile (AC6 was checked by hand only). One limitation of AI-assisted debugging: the AI only sees what I paste, so it can claim a fix works without running anything — only real terminal output counts as evidence.
