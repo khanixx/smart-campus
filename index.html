@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Campus Rooms</title>
+<style>
+  :root{--bg:#f6f7f9;--card:#fff;--ink:#1c2230;--muted:#5b6475;--ok:#1e7a46;--bad:#b42318;--line:#dfe3ea;--accent:#2f5bd3}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151b;--card:#1b2029;--ink:#e8ecf3;--muted:#9aa4b5;--ok:#4cc488;--bad:#ff7a6e;--line:#2c3340;--accent:#7d9cff}}
+  :root[data-theme="dark"]{--bg:#12151b;--card:#1b2029;--ink:#e8ecf3;--muted:#9aa4b5;--ok:#4cc488;--bad:#ff7a6e;--line:#2c3340;--accent:#7d9cff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+  main{max-width:560px;margin:0 auto;padding:24px 16px}
+  h1{font-size:1.4rem;margin:0 0 4px} p.sub{color:var(--muted);margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+  input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .chk{display:flex;gap:8px;align-items:center;margin-top:12px} .chk input{width:auto}
+  button{margin-top:16px;width:100%;padding:12px;border:0;border-radius:8px;background:var(--accent);color:#fff;font:600 1rem system-ui;cursor:pointer}
+  #result{font-weight:700;font-size:1.1rem} .ok{color:var(--ok)} .bad{color:var(--bad)}
+  ul{margin:0;padding-left:18px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Room A-301 availability</h1>
+  <p class="sub">Clock fixed at 27 Oct 2026, 09:00. Max booking 120 min.</p>
+  <div class="card">
+    <strong>Existing bookings</strong>
+    <ul id="list"></ul>
+  </div>
+  <form class="card" id="f">
+    <div class="row">
+      <div><label for="s">Start</label><input id="s" type="time" value="11:00" required></div>
+      <div><label for="e">End</label><input id="e" type="time" value="12:00" required></div>
+    </div>
+    <div class="chk"><input id="blk" type="checkbox"><label for="blk" style="margin:0">Room blocked</label></div>
+    <button type="submit">Check availability</button>
+  </form>
+  <div class="card" aria-live="polite"><div id="result">—</div><div id="reason" class="sub"></div></div>
+</main>
+<script type="module">
+  import { checkAvailability } from './src/availability.js';
+  const NOW = new Date('2026-10-27T09:00:00+05:00');
+  const t = (hhmm) => new Date(`2026-10-27T${hhmm}:00+05:00`);
+  const bookings = [
+    { id: 'B2', start: t('14:00'), end: t('15:00') },
+    { id: 'B1', start: t('10:00'), end: t('11:00') },
+  ];
+  const fmt = d => d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Almaty'});
+  const render = () => document.getElementById('list').innerHTML =
+    bookings.map(b => `<li>${b.id}: ${fmt(b.start)}–${fmt(b.end)}</li>`).join('');
+  render();
+  document.getElementById('f').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const r = checkAvailability({ blocked: document.getElementById('blk').checked }, bookings,
+      { start: t(document.getElementById('s').value), end: t(document.getElementById('e').value) }, NOW);
+    const el = document.getElementById('result');
+    el.textContent = r.status; el.className = r.status === 'Available' ? 'ok' : 'bad';
+    document.getElementById('reason').textContent = r.reason ?? 'Room is free for this slot.';
+    render();
+  });
+</script>
+</body>
+</html>
